@@ -1,16 +1,21 @@
-# React + Vite
+# Kimbo - Nutricion Natural para Mascotas
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma oficial de comercio electronico para Kimbo, una marca dedicada a revolucionar la alimentacion canina a traves de la dieta BARF y productos 100% naturales.
 
-Currently, two official plugins are available:
+## Sobre Kimbo
+Kimbo nace con la mision de mejorar la calidad de vida de las mascotas ofreciendo una alternativa saludable a los alimentos procesados. Nos especializamos en nutricion biologica cruda, snacks naturales y suplementos diseñados para fortalecer la salud y vitalidad de los perros.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Proposito de la Plataforma
+Esta aplicacion web ha sido diseñada para acercar la nutricion natural a los dueños de mascotas en Costa Rica, facilitando una experiencia de compra agil, informativa y personalizada.
 
-## React Compiler
+## Caracteristicas para el Cliente
+La plataforma ofrece un ecosistema digital completo donde los usuarios pueden:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Explorar el catalogo de productos naturales con informacion nutricional detallada.
+2. Gestionar sus pedidos de forma intuitiva desde cualquier dispositivo movil o computadora.
+3. Recibir asesoramiento inmediato sobre nutricion canina a traves de nuestro Asistente Virtual Inteligente.
+4. Localizar los puntos de venta y distribuidores autorizados mas cercanos mediante geolocalizacion.
+5. Acceder al "Club Kimbo", un programa de fidelizacion que premia el compromiso con la salud de su mascota.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+Kimbo: Amor real, nutricion real.
