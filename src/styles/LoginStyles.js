@@ -9,55 +9,21 @@ export const COLORS = {
   facebook: "#1877F2",
 };
 
-const PANEL_HEIGHT = "550px";
-const PANEL_WIDTH = "450px";
-const BORDER_RADIUS = "1.5rem";
 const LOGO_SIZE = "100px";
 
 export const styles = {
-  
   mainContainer: (imagenFondo) => ({
     minHeight: "100vh",
     width: "100%",
     backgroundImage: `url(${imagenFondo})`,
     backgroundSize: "cover",
-    backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
-    padding: "2rem",
+    justifyContent: "center",
+    padding: "1rem",
     fontFamily: "Poppins, sans-serif",
   }),
-
-  panelsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "nowrap",
-    width: `1090px`,
-    maxWidth: "100%",
-    backgroundColor: "transparent",
-    overflow: "hidden",
-    borderRadius: BORDER_RADIUS,
-    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
-    alignItems: "stretch",
-  },
-
-  leftPanel: {
-    background: `linear-gradient(135deg, rgba(46, 125, 50, 0.7) 0%, rgba(141, 110, 99, 0.7) 100%)`,
-    backdropFilter: "blur(3px)",
-    borderRadius: BORDER_RADIUS,
-    padding: "3rem",
-    color: COLORS.white,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    width: PANEL_WIDTH,
-    flex: "none",
-    height: PANEL_HEIGHT,
-    position: "relative",
-    zIndex: 20,
-  },
 
   logoContainer: {
     display: "flex",
@@ -72,7 +38,7 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "3rem",
+    fontSize: "clamp(2rem, 5vw, 3.5rem)",
     fontWeight: "bold",
     lineHeight: 1.2,
     marginBottom: "1.5rem",
@@ -80,7 +46,7 @@ export const styles = {
 
   descriptionP: {
     opacity: 0.9,
-    fontSize: "1.125rem",
+    fontSize: "1.25rem",
     marginBottom: "2rem",
   },
 
@@ -95,26 +61,11 @@ export const styles = {
     gap: "0.5rem",
     cursor: "pointer",
     transition: "background-color 0.3s",
-  },
-
-  rightPanel: {
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    backdropFilter: "blur(3px)",
-    borderRadius: BORDER_RADIUS,
-    padding: "3rem",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    width: PANEL_WIDTH,
-    flex: "none",
-    height: PANEL_HEIGHT,
-    position: "relative",
-    zIndex: 10,
-    marginLeft: 0,
+    width: "fit-content",
   },
 
   welcomeH2: {
-    fontSize: "2.25rem",
+    fontSize: "clamp(2rem, 4vw, 2.5rem)",
     fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: "0.5rem",
@@ -123,6 +74,7 @@ export const styles = {
   welcomeP: {
     color: COLORS.gray700,
     marginBottom: "2rem",
+    fontSize: "1.1rem",
   },
 
   formItemsContainer: {
@@ -138,7 +90,7 @@ export const styles = {
   },
 
   label: {
-    fontSize: "0.75rem",
+    fontSize: "0.85rem",
     color: COLORS.gray600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
@@ -148,8 +100,9 @@ export const styles = {
     width: "100%",
     border: "none",
     backgroundColor: "transparent",
-    padding: "0.5rem 0.25rem",
+    padding: "0.75rem 0.25rem",
     color: COLORS.gray700,
+    fontSize: "1rem",
     transition: "border-color 0.3s",
   },
 
@@ -158,15 +111,13 @@ export const styles = {
     borderLeft: `4px solid ${COLORS.accent}`,
   },
 
-
   inputPassword: {
     borderBottom: `1px solid ${COLORS.gray300}`,
-    paddingRight: "2rem", 
+    paddingRight: "2rem",
   },
 
-
   passwordWrapper: {
-    position: "relative", 
+    position: "relative",
     width: "100%",
   },
 
@@ -196,10 +147,10 @@ export const styles = {
     background: `linear-gradient(to right, ${COLORS.primary}, ${COLORS.secondary})`,
     color: COLORS.white,
     fontWeight: "bold",
-    padding: "1rem",
+    padding: "1.2rem",
     borderRadius: "0.5rem",
     textTransform: "uppercase",
-    fontSize: "1.125rem",
+    fontSize: "1.25rem",
     border: "none",
     cursor: "pointer",
   },
@@ -210,17 +161,17 @@ export const styles = {
     margin: "1.5rem 0",
     width: "100%",
   },
-  
+
   separatorLine: {
     flex: 1,
     height: "1px",
     backgroundColor: COLORS.gray300,
   },
-  
+
   separatorText: {
     padding: "0 0.5rem",
     color: COLORS.gray600,
-    fontSize: "0.75rem",
+    fontSize: "0.8rem",
     textAlign: "center",
   },
 
@@ -228,6 +179,7 @@ export const styles = {
     display: "flex",
     gap: "1rem",
     width: "100%",
+    flexDirection: "row",
   },
 
   socialButtonBase: {
@@ -239,9 +191,10 @@ export const styles = {
     padding: "0.75rem",
     borderRadius: "0.5rem",
     cursor: "pointer",
-    fontSize: "0.875rem",
+    fontSize: "0.9rem",
     fontWeight: "600",
     transition: "0.3s",
+    whiteSpace: "nowrap",
   },
 
   googleButton: {
@@ -260,6 +213,7 @@ export const styles = {
     textAlign: "center",
     color: COLORS.gray700,
     marginTop: "2rem",
+    fontSize: "1rem",
   },
 
   registerButton: {
@@ -269,5 +223,6 @@ export const styles = {
     border: "none",
     background: "none",
     cursor: "pointer",
+    fontSize: "1rem",
   },
 };
