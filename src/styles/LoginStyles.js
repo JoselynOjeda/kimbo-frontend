@@ -1,6 +1,3 @@
-// src/styles/LoginStyles.js
-
-// 1. DEFINIMOS LOS COLORES AQUÍ (Rompemos el ciclo)
 export const COLORS = {
   primary: "#2E7D32",
   secondary: "#8D6E63",
@@ -9,16 +6,16 @@ export const COLORS = {
   gray700: "#4B5563",
   gray600: "#6B7280",
   gray300: "#D1D5DB",
+  facebook: "#1877F2",
 };
 
-// Definición de medidas constantes
 const PANEL_HEIGHT = "550px";
 const PANEL_WIDTH = "450px";
 const BORDER_RADIUS = "1.5rem";
 const LOGO_SIZE = "100px";
 
-// 2. ESTILOS
 export const styles = {
+  
   mainContainer: (imagenFondo) => ({
     minHeight: "100vh",
     width: "100%",
@@ -28,7 +25,7 @@ export const styles = {
     backgroundRepeat: "no-repeat",
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start", // Alineado a la izquierda
+    justifyContent: "flex-start",
     padding: "2rem",
     fontFamily: "Poppins, sans-serif",
   }),
@@ -161,8 +158,28 @@ export const styles = {
     borderLeft: `4px solid ${COLORS.accent}`,
   },
 
+
   inputPassword: {
     borderBottom: `1px solid ${COLORS.gray300}`,
+    paddingRight: "2rem", 
+  },
+
+
+  passwordWrapper: {
+    position: "relative", 
+    width: "100%",
+  },
+
+  togglePasswordButton: {
+    position: "absolute",
+    right: "0",
+    top: "50%",
+    transform: "translateY(-50%)",
+    border: "none",
+    background: "transparent",
+    cursor: "pointer",
+    color: COLORS.gray600,
+    padding: "0.25rem",
   },
 
   forgotButton: {
@@ -185,6 +202,58 @@ export const styles = {
     fontSize: "1.125rem",
     border: "none",
     cursor: "pointer",
+  },
+
+  separatorContainer: {
+    display: "flex",
+    alignItems: "center",
+    margin: "1.5rem 0",
+    width: "100%",
+  },
+  
+  separatorLine: {
+    flex: 1,
+    height: "1px",
+    backgroundColor: COLORS.gray300,
+  },
+  
+  separatorText: {
+    padding: "0 0.5rem",
+    color: COLORS.gray600,
+    fontSize: "0.75rem",
+    textAlign: "center",
+  },
+
+  socialButtonsContainer: {
+    display: "flex",
+    gap: "1rem",
+    width: "100%",
+  },
+
+  socialButtonBase: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.5rem",
+    padding: "0.75rem",
+    borderRadius: "0.5rem",
+    cursor: "pointer",
+    fontSize: "0.875rem",
+    fontWeight: "600",
+    transition: "0.3s",
+  },
+
+  googleButton: {
+    backgroundColor: COLORS.white,
+    border: `1px solid ${COLORS.gray300}`,
+    color: COLORS.gray700,
+  },
+
+  facebookButton: {
+    backgroundColor: COLORS.facebook,
+    border: "none",
+    color: COLORS.white,
   },
 
   registerP: {
