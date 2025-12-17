@@ -17,6 +17,7 @@ export const styles = {
     width: "100%",
     backgroundImage: `url(${imagenFondo})`,
     backgroundSize: "cover",
+    backgroundPosition: "center center",
     backgroundRepeat: "no-repeat",
     display: "flex",
     alignItems: "center",
@@ -38,7 +39,7 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+    fontSize: "clamp(2rem, 5vw, 3rem)",
     fontWeight: "bold",
     lineHeight: 1.2,
     marginBottom: "1.5rem",
@@ -46,7 +47,7 @@ export const styles = {
 
   descriptionP: {
     opacity: 0.9,
-    fontSize: "1.25rem",
+    fontSize: "1.125rem",
     marginBottom: "2rem",
   },
 
@@ -65,7 +66,7 @@ export const styles = {
   },
 
   welcomeH2: {
-    fontSize: "clamp(2rem, 4vw, 2.5rem)",
+    fontSize: "clamp(1.8rem, 4vw, 2.25rem)",
     fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: "0.5rem",
@@ -74,7 +75,6 @@ export const styles = {
   welcomeP: {
     color: COLORS.gray700,
     marginBottom: "2rem",
-    fontSize: "1.1rem",
   },
 
   formItemsContainer: {
@@ -90,7 +90,7 @@ export const styles = {
   },
 
   label: {
-    fontSize: "0.85rem",
+    fontSize: "0.75rem",
     color: COLORS.gray600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
@@ -100,9 +100,8 @@ export const styles = {
     width: "100%",
     border: "none",
     backgroundColor: "transparent",
-    padding: "0.75rem 0.25rem",
+    padding: "0.5rem 0.25rem",
     color: COLORS.gray700,
-    fontSize: "1rem",
     transition: "border-color 0.3s",
   },
 
@@ -147,10 +146,10 @@ export const styles = {
     background: `linear-gradient(to right, ${COLORS.primary}, ${COLORS.secondary})`,
     color: COLORS.white,
     fontWeight: "bold",
-    padding: "1.2rem",
+    padding: "1rem",
     borderRadius: "0.5rem",
     textTransform: "uppercase",
-    fontSize: "1.25rem",
+    fontSize: "1.125rem",
     border: "none",
     cursor: "pointer",
   },
@@ -171,7 +170,7 @@ export const styles = {
   separatorText: {
     padding: "0 0.5rem",
     color: COLORS.gray600,
-    fontSize: "0.8rem",
+    fontSize: "0.75rem",
     textAlign: "center",
   },
 
@@ -191,7 +190,7 @@ export const styles = {
     padding: "0.75rem",
     borderRadius: "0.5rem",
     cursor: "pointer",
-    fontSize: "0.9rem",
+    fontSize: "0.875rem",
     fontWeight: "600",
     transition: "0.3s",
     whiteSpace: "nowrap",
@@ -213,7 +212,6 @@ export const styles = {
     textAlign: "center",
     color: COLORS.gray700,
     marginTop: "2rem",
-    fontSize: "1rem",
   },
 
   registerButton: {
@@ -223,6 +221,5 @@ export const styles = {
     border: "none",
     background: "none",
     cursor: "pointer",
-    fontSize: "1rem",
   },
 };
