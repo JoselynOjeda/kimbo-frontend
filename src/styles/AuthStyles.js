@@ -1,3 +1,4 @@
+
 export const COLORS = {
   primary: "#2E7D32",
   secondary: "#8D6E63",
@@ -11,25 +12,44 @@ export const COLORS = {
 
 const LOGO_SIZE = "80px";
 
+
 export const styles = {
-  mainContainer: (imagenFondo) => ({
+ 
+  mainContainer: {
     minHeight: "100vh",
     width: "100%",
+    position: "relative", 
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "6rem 0 0 0", 
+    fontFamily: "Poppins, sans-serif",
+    backgroundColor: "#f3f4f6",
+    overflowX: "hidden",
+  },
+
+
+  backgroundBanner: (imagenFondo) => ({
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "85vh", 
     backgroundImage: `url(${imagenFondo})`,
     backgroundSize: "cover",
-    backgroundPosition: "center center",
-    backgroundRepeat: "no-repeat",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "6rem 1rem 2rem 1rem", 
-    fontFamily: "Poppins, sans-serif",
+    backgroundPosition: "center bottom",
+    zIndex: 0, 
+   
+    maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+    WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
   }),
 
   logoContainer: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: "1rem", 
+    marginBottom: "1rem",
+    position: "relative",
+    zIndex: 2,
   },
 
   logoImage: {
@@ -39,24 +59,30 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "clamp(1.8rem, 4vw, 2.5rem)", 
+    fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
     fontWeight: "bold",
     lineHeight: 1.2,
     marginBottom: "1rem",
-    textAlign: 'center'
+    textAlign: "center",
+    color:  COLORS.white,
+    position: "relative",
+    zIndex: 2,
+
   },
 
   descriptionP: {
     opacity: 0.9,
     fontSize: "1rem",
     marginBottom: "1.5rem",
-    textAlign: 'center'
+    textAlign: "center",
+    position: "relative",
+    zIndex: 2,
   },
 
   learnMoreButton: {
     border: `2px solid ${COLORS.white}`,
     color: COLORS.white,
-    padding: "0.5rem 1.25rem", 
+    padding: "0.5rem 1.25rem",
     borderRadius: "0.5rem",
     backgroundColor: "transparent",
     display: "flex",
@@ -67,27 +93,29 @@ export const styles = {
     width: "fit-content",
     fontSize: "0.9rem",
     margin: "0 auto",
+    position: "relative",
+    zIndex: 2,
   },
 
   welcomeH2: {
-    fontSize: "clamp(1.5rem, 3vw, 2rem)", 
+    fontSize: "clamp(1.5rem, 3vw, 2rem)",
     fontWeight: "bold",
     color: COLORS.primary,
     marginBottom: "0.25rem",
-     textAlign: 'center'
+    textAlign: "center",
   },
 
   welcomeP: {
     color: COLORS.gray700,
     marginBottom: "1.5rem",
     fontSize: "0.9rem",
-     textAlign: 'center'
+    textAlign: "center",
   },
 
   formItemsContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: "1rem", 
+    gap: "1rem",
   },
 
   inputGroup: {
@@ -97,7 +125,7 @@ export const styles = {
   },
 
   label: {
-    fontSize: "0.7rem", 
+    fontSize: "0.7rem",
     color: COLORS.gray600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
@@ -107,7 +135,7 @@ export const styles = {
     width: "100%",
     border: "none",
     backgroundColor: "transparent",
-    padding: "0.4rem 0.25rem", 
+    padding: "0.4rem 0.25rem",
     color: COLORS.gray700,
     transition: "border-color 0.3s",
     fontSize: "0.9rem",
@@ -154,7 +182,7 @@ export const styles = {
     background: `linear-gradient(to right, ${COLORS.primary}, ${COLORS.secondary})`,
     color: COLORS.white,
     fontWeight: "bold",
-    padding: "0.8rem", 
+    padding: "0.8rem",
     borderRadius: "0.5rem",
     textTransform: "uppercase",
     fontSize: "1rem",
@@ -165,7 +193,7 @@ export const styles = {
   separatorContainer: {
     display: "flex",
     alignItems: "center",
-    margin: "1rem 0", 
+    margin: "1rem 0",
     width: "100%",
   },
 
@@ -195,7 +223,7 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     gap: "0.5rem",
-    padding: "0.6rem", 
+    padding: "0.6rem",
     borderRadius: "0.5rem",
     cursor: "pointer",
     fontSize: "0.8rem",
@@ -211,7 +239,7 @@ export const styles = {
   },
 
   facebookButton: {
-    backgroundColor: COLORS.facebook,
+    backgroundColor: "#1877F2",
     border: "none",
     color: COLORS.white,
   },
