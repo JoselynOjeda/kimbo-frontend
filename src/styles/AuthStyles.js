@@ -9,7 +9,7 @@ export const COLORS = {
   facebook: "#1877F2",
 };
 
-const LOGO_SIZE = "100px";
+const LOGO_SIZE = "80px";
 
 export const styles = {
   mainContainer: (imagenFondo) => ({
@@ -22,14 +22,14 @@ export const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "1rem",
+    padding: "6rem 1rem 2rem 1rem", 
     fontFamily: "Poppins, sans-serif",
   }),
 
   logoContainer: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: "2rem",
+    marginBottom: "1rem", 
   },
 
   logoImage: {
@@ -39,22 +39,24 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "clamp(2rem, 5vw, 3rem)",
+    fontSize: "clamp(1.8rem, 4vw, 2.5rem)", 
     fontWeight: "bold",
     lineHeight: 1.2,
-    marginBottom: "1.5rem",
+    marginBottom: "1rem",
+    textAlign: 'center'
   },
 
   descriptionP: {
     opacity: 0.9,
-    fontSize: "1.125rem",
-    marginBottom: "2rem",
+    fontSize: "1rem",
+    marginBottom: "1.5rem",
+    textAlign: 'center'
   },
 
   learnMoreButton: {
     border: `2px solid ${COLORS.white}`,
     color: COLORS.white,
-    padding: "0.75rem 1.5rem",
+    padding: "0.5rem 1.25rem", 
     borderRadius: "0.5rem",
     backgroundColor: "transparent",
     display: "flex",
@@ -63,34 +65,39 @@ export const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s",
     width: "fit-content",
+    fontSize: "0.9rem",
+    margin: "0 auto",
   },
 
   welcomeH2: {
-    fontSize: "clamp(1.8rem, 4vw, 2.25rem)",
+    fontSize: "clamp(1.5rem, 3vw, 2rem)", 
     fontWeight: "bold",
     color: COLORS.primary,
-    marginBottom: "0.5rem",
+    marginBottom: "0.25rem",
+     textAlign: 'center'
   },
 
   welcomeP: {
     color: COLORS.gray700,
-    marginBottom: "2rem",
+    marginBottom: "1.5rem",
+    fontSize: "0.9rem",
+     textAlign: 'center'
   },
 
   formItemsContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: "1.5rem",
+    gap: "1rem", 
   },
 
   inputGroup: {
     display: "flex",
     flexDirection: "column",
-    gap: "0.25rem",
+    gap: "0.2rem",
   },
 
   label: {
-    fontSize: "0.75rem",
+    fontSize: "0.7rem", 
     color: COLORS.gray600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
@@ -100,9 +107,10 @@ export const styles = {
     width: "100%",
     border: "none",
     backgroundColor: "transparent",
-    padding: "0.5rem 0.25rem",
+    padding: "0.4rem 0.25rem", 
     color: COLORS.gray700,
     transition: "border-color 0.3s",
+    fontSize: "0.9rem",
   },
 
   inputEmail: {
@@ -133,7 +141,7 @@ export const styles = {
   },
 
   forgotButton: {
-    fontSize: "0.75rem",
+    fontSize: "0.7rem",
     color: COLORS.primary,
     textTransform: "uppercase",
     cursor: "pointer",
@@ -146,10 +154,10 @@ export const styles = {
     background: `linear-gradient(to right, ${COLORS.primary}, ${COLORS.secondary})`,
     color: COLORS.white,
     fontWeight: "bold",
-    padding: "1rem",
+    padding: "0.8rem", 
     borderRadius: "0.5rem",
     textTransform: "uppercase",
-    fontSize: "1.125rem",
+    fontSize: "1rem",
     border: "none",
     cursor: "pointer",
   },
@@ -157,7 +165,7 @@ export const styles = {
   separatorContainer: {
     display: "flex",
     alignItems: "center",
-    margin: "1.5rem 0",
+    margin: "1rem 0", 
     width: "100%",
   },
 
@@ -170,13 +178,13 @@ export const styles = {
   separatorText: {
     padding: "0 0.5rem",
     color: COLORS.gray600,
-    fontSize: "0.75rem",
+    fontSize: "0.7rem",
     textAlign: "center",
   },
 
   socialButtonsContainer: {
     display: "flex",
-    gap: "1rem",
+    gap: "0.75rem",
     width: "100%",
     flexDirection: "row",
   },
@@ -187,10 +195,10 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     gap: "0.5rem",
-    padding: "0.75rem",
+    padding: "0.6rem", 
     borderRadius: "0.5rem",
     cursor: "pointer",
-    fontSize: "0.875rem",
+    fontSize: "0.8rem",
     fontWeight: "600",
     transition: "0.3s",
     whiteSpace: "nowrap",
@@ -211,7 +219,8 @@ export const styles = {
   registerP: {
     textAlign: "center",
     color: COLORS.gray700,
-    marginTop: "2rem",
+    marginTop: "1.5rem",
+    fontSize: "0.85rem",
   },
 
   registerButton: {
