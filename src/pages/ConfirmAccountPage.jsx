@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { COLORS } from "../styles/AuthStyles"; // Asegúrate de importar tus colores si los usas
+import { COLORS } from "../styles/AuthStyles"; 
 
 export default function ConfirmAccountPage() {
   const { token } = useParams();
   const navigate = useNavigate();
   
-  // Usamos useRef para evitar que el useEffect se ejecute dos veces en modo estricto de React (React 18+)
+ 
   const effectRan = useRef(false);
 
   useEffect(() => {
-    if (effectRan.current) return; // Si ya corrió, no hagas nada
+    if (effectRan.current) return; 
 
     const confirmAccount = async () => {
       try {
@@ -19,15 +19,14 @@ export default function ConfirmAccountPage() {
         const data = await response.json();
 
         if (response.ok) {
-          // --- AQUÍ ESTÁ EL CAMBIO ---
-          // Esperamos a que el usuario presione el botón para redirigir
+
           Swal.fire({
             title: "¡Cuenta Verificada!",
             text: "Tu correo ha sido validado exitosamente. Ya puedes iniciar sesión.",
             icon: "success",
             confirmButtonColor: COLORS.primary || '#EF6C00',
             confirmButtonText: "Ir al Login",
-            allowOutsideClick: false // Obliga a dar click en el botón
+            allowOutsideClick: false 
           }).then((result) => {
             if (result.isConfirmed) {
               navigate("/login");
@@ -35,7 +34,7 @@ export default function ConfirmAccountPage() {
           });
 
         } else {
-          // Si el token es inválido o expiró
+ 
           Swal.fire({
             title: "Error",
             text: data.message || "El enlace no es válido o ya expiró.",
@@ -55,12 +54,11 @@ export default function ConfirmAccountPage() {
 
     confirmAccount();
     
-    // Marcar como ejecutado para evitar doble llamada
+ 
     effectRan.current = true;
 
   }, [token, navigate]);
 
-  // Pantalla de carga mientras se verifica
   return (
     <div style={{ 
         display: 'flex', 

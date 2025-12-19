@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider, facebookProvider } from "../config/firebase";
-import { COLORS } from "../styles/AuthStyles"; 
+import { COLORS } from "../styles/AuthStyles";
 
 export const useAuthForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { token } = useParams();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showRegisterConfirmPassword, setShowRegisterConfirmPassword] =
+    useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,62 +20,138 @@ export const useAuthForm = () => {
     nombre_completo: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
+  const [showForgotModal, setShowForgotModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [sendingReset, setSendingReset] = useState(false);
+
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetToken, setResetToken] = useState("");
+  const [loadingReset, setLoadingReset] = useState(false);
+  const [resetError, setResetError] = useState("");
+
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+
+  const verificationAttempted = useRef(false);
+
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleRegisterConfirmVisibility = () =>
+    setShowRegisterConfirmPassword(!showRegisterConfirmPassword); 
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
     setError("");
-    setFormData({ nombre_completo: "", email: "", password: "", confirmPassword: "" });
+    setFormData({
+      nombre_completo: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setShowPassword(false);
+    setShowRegisterConfirmPassword(false);
   };
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  // Función auxiliar para alertas
   const mostrarAlerta = (icono, titulo, mensaje) => {
     Swal.fire({
       icon: icono,
       title: titulo,
       text: mensaje,
       confirmButtonColor: COLORS.primary,
-      confirmButtonText: 'Entendido',
+      confirmButtonText: "Entendido",
       backdrop: `rgba(0,0,0,0.4)`,
-      showClass: { popup: 'animate__animated animate__fadeInDown' },
-      hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-      customClass: { title: 'font-poppins-title', htmlContainer: 'font-poppins-text' }
     });
   };
 
-  // -----------------------------------------------------------------------
-  // 1. INICIO DE SESIÓN SOCIAL (Google / Facebook)
-  // -----------------------------------------------------------------------
+  useEffect(() => {
+    if (token && location.pathname.includes("/confirm-account/")) {
+      if (verificationAttempted.current) return;
+      verificationAttempted.current = true;
+
+      const verifyAccount = async () => {
+        Swal.fire({
+          title: "Verificando cuenta...",
+          text: "Por favor espera un momento.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        try {
+          const response = await fetch(
+            `http://localhost:3001/api/auth/confirm-account/${token}`
+          );
+          const data = await response.json();
+
+          if (response.ok) {
+            await Swal.fire({
+              title: "¡Cuenta Verificada! 🎉",
+              text: "Tu correo ha sido validado correctamente. Ya puedes iniciar sesión.",
+              icon: "success",
+              confirmButtonColor: COLORS.primary,
+              confirmButtonText: "Iniciar Sesión",
+            });
+            navigate("/login", { replace: true });
+          } else {
+            await Swal.fire({
+              title: "Error de Verificación",
+              text:
+                data.message || "El enlace no es válido o ya fue utilizado.",
+              icon: "error",
+              confirmButtonColor: COLORS.primary,
+              confirmButtonText: "Entendido",
+            });
+            navigate("/login", { replace: true });
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
+          navigate("/login", { replace: true });
+        }
+      };
+
+      verifyAccount();
+    }
+  }, [token, location, navigate]);
+
+  useEffect(() => {
+    if (location.pathname.includes("/reset-password/")) {
+      const pathToken = location.pathname.split("/").pop();
+      setResetToken(pathToken);
+      setShowResetModal(true);
+    }
+  }, [location]);
+
   const handleSocialLogin = async (providerType) => {
     setError("");
     try {
-      const provider = providerType === 'google' ? googleProvider : facebookProvider;
+      const provider =
+        providerType === "google" ? googleProvider : facebookProvider;
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      if (!user.email) {
-        throw new Error("La red social no compartió tu email. Por favor usa el registro normal.");
-      }
+      if (!user.email) throw new Error("La red social no compartió tu email.");
 
       const bodyData = {
         nombre: user.displayName || "Usuario Social",
         email: user.email,
         foto: user.photoURL,
         provider: providerType,
-        provider_id: user.uid
+        provider_id: user.uid,
       };
 
-      // Enviamos datos al backend
       const response = await fetch("http://localhost:3001/api/auth/social", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,86 +160,101 @@ export const useAuthForm = () => {
 
       const data = await response.json();
 
-      // >>> VALIDACIÓN: SI LA CUENTA NO ESTÁ VERIFICADA <<<
-      // El backend ahora devuelve 403 y error 'UNVERIFIED'
-      if (response.status === 403 && data.error === 'UNVERIFIED') {
+      if (response.status === 403 && data.error === "UNVERIFIED") {
         return Swal.fire({
-            icon: 'warning',
-            title: '¡Verificación Requerida!',
-            text: data.message, // "Para acceder, valida el correo..."
-            confirmButtonColor: COLORS.primary,
-            confirmButtonText: 'Revisaré mi correo'
+          icon: "warning",
+          title: "¡Verificación Requerida!",
+          text: data.message,
+          confirmButtonColor: COLORS.primary,
+          confirmButtonText: "Revisaré mi correo",
         });
-        // IMPORTANTE: Aquí se detiene la función, NO se guarda token ni se navega.
       }
 
-      if (!response.ok) throw new Error(data.message || "Error al conectar con el servidor");
+      if (!response.ok)
+        throw new Error(data.message || "Error al conectar con el servidor");
 
-      // Si todo está bien (200 OK)
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       Swal.fire({
-        icon: 'success',
-        title: `¡Bienvenido con ${providerType === 'google' ? 'Google' : 'Facebook'}!`,
+        icon: "success",
+        title: `¡Bienvenido con ${
+          providerType === "google" ? "Google" : "Facebook"
+        }!`,
         text: `Hola, ${data.user.nombre}`,
         showConfirmButton: false,
         timer: 1500,
-        backdrop: `rgba(0,0,123,0.4)`
+        backdrop: `rgba(0,0,123,0.4)`,
       }).then(() => {
         navigate("/");
       });
-
     } catch (error) {
       console.error("Error Social:", error);
       let mensaje = error.message;
-      if (error.code === 'auth/popup-closed-by-user') return;
-      if (error.code === 'auth/account-exists-with-different-credential') {
+      if (error.code === "auth/popup-closed-by-user") return;
+      if (error.code === "auth/account-exists-with-different-credential") {
         mensaje = "Ya existe una cuenta con este email usando otro método.";
       }
-      mostrarAlerta('error', 'Error de Autenticación', mensaje);
+      mostrarAlerta("error", "Error de Autenticación", mensaje);
     }
   };
 
-  // -----------------------------------------------------------------------
-  // 2. INICIO DE SESIÓN LOCAL Y REGISTRO
-  // -----------------------------------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // --- Validaciones Frontend ---
+    // Validaciones básicas
     if (!formData.email.trim() || !formData.password.trim()) {
       setLoading(false);
-      mostrarAlerta('warning', 'Campos Incompletos', 'Por favor, llena todos los campos obligatorios.');
+      mostrarAlerta(
+        "warning",
+        "Campos Incompletos",
+        "Por favor, llena todos los campos obligatorios."
+      );
       return;
     }
 
     if (isRegistering && !formData.nombre_completo.trim()) {
       setLoading(false);
-      mostrarAlerta('warning', 'Falta el Nombre', 'Por favor ingresa tu nombre completo.');
+      mostrarAlerta(
+        "warning",
+        "Falta el Nombre",
+        "Por favor ingresa tu nombre completo."
+      );
       return;
     }
 
     if (isRegistering) {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
-      if (formData.password.length > 6) {
+
+      // Validación longitud: Mínimo 6, Máximo 12
+      if (formData.password.length < 6 || formData.password.length > 12) {
         setLoading(false);
-        setError("La contraseña es muy larga");
-        mostrarAlerta('error', 'Contraseña Inválida', 'La contraseña debe tener un MÁXIMO de 6 caracteres.');
+        setError("Longitud inválida");
+        mostrarAlerta(
+          "error",
+          "Contraseña Inválida",
+          "La contraseña debe tener entre 6 y 12 caracteres."
+        );
         return;
       }
+
       if (!passwordRegex.test(formData.password)) {
         setLoading(false);
         setError("La contraseña no es segura");
-        mostrarAlerta('error', 'Contraseña Débil', 'La contraseña debe incluir al menos: una mayúscula, una minúscula y un número.');
+        mostrarAlerta(
+          "error",
+          "Contraseña Débil",
+          "La contraseña debe incluir al menos: una mayúscula, una minúscula y un número."
+        );
         return;
       }
+
       if (formData.password !== formData.confirmPassword) {
         setLoading(false);
         setError("Las contraseñas no coinciden");
-        mostrarAlerta('error', 'Error', 'Las contraseñas no coinciden.');
+        mostrarAlerta("error", "Error", "Las contraseñas no coinciden.");
         return;
       }
     }
@@ -170,7 +265,11 @@ export const useAuthForm = () => {
         : "http://localhost:3001/api/auth/login";
 
       const bodyData = isRegistering
-        ? { nombre_completo: formData.nombre_completo, email: formData.email, password: formData.password }
+        ? {
+            nombre_completo: formData.nombre_completo,
+            email: formData.email,
+            password: formData.password,
+          }
         : { email: formData.email, password: formData.password };
 
       const response = await fetch(endpoint, {
@@ -181,17 +280,15 @@ export const useAuthForm = () => {
 
       const data = await response.json();
 
-      // >>> VALIDACIÓN: SI LA CUENTA NO ESTÁ VERIFICADA (LOGIN) <<<
-      if (response.status === 403 && data.error === 'UNVERIFIED') {
+      if (response.status === 403 && data.error === "UNVERIFIED") {
         setLoading(false);
         return Swal.fire({
-            icon: 'warning',
-            title: '¡Cuenta no verificada!',
-            text: data.message, // "Tu cuenta no está verificada..."
-            confirmButtonColor: COLORS.primary,
-            confirmButtonText: 'Revisaré mi correo'
+          icon: "warning",
+          title: "¡Cuenta no verificada!",
+          text: data.message,
+          confirmButtonColor: COLORS.primary,
+          confirmButtonText: "Revisaré mi correo",
         });
-        // IMPORTANTE: Detenemos ejecución.
       }
 
       if (!response.ok) throw new Error(data.message || "Error de conexión");
@@ -199,27 +296,25 @@ export const useAuthForm = () => {
       setLoading(false);
 
       if (isRegistering) {
-        // Registro Exitoso
         Swal.fire({
-          icon: 'success',
-          title: '¡Cuenta Creada!',
+          icon: "success",
+          title: "¡Cuenta Creada!",
           text: `Hemos enviado un correo a ${formData.email}. Por favor verifica tu cuenta antes de iniciar sesión.`,
           confirmButtonColor: COLORS.primary,
         }).then(() => {
-          toggleForm(); // Cambiamos al formulario de login para obligar a loguearse tras verificar
+          toggleForm();
         });
       } else {
-        // Login Exitoso (Solo llega aquí si es status 200 y pasó las validaciones)
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
         Swal.fire({
-          icon: 'success',
-          title: '¡Login Correcto!',
+          icon: "success",
+          title: "¡Login Correcto!",
           text: `Hola de nuevo, ${data.user.nombre}`,
           showConfirmButton: false,
           timer: 1500,
-          backdrop: `rgba(0,0,123,0.4)`
+          backdrop: `rgba(0,0,123,0.4)`,
         }).then(() => {
           navigate("/");
         });
@@ -228,7 +323,89 @@ export const useAuthForm = () => {
       console.error("Error en autenticación:", error);
       setLoading(false);
       setError(error.message);
-      mostrarAlerta('error', 'Ocurrió un error', error.message);
+      mostrarAlerta("error", "Ocurrió un error", error.message);
+    }
+  };
+
+  const handleForgotSubmit = async (e) => {
+    e.preventDefault();
+    if (!resetEmail)
+      return Swal.fire("Error", "El email es obligatorio", "error");
+
+    setSendingReset(true);
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/auth/forgot-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: resetEmail }),
+        }
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          title: "¡Enlace Enviado!",
+          text: "Revisa tu bandeja de entrada.",
+          icon: "success",
+          confirmButtonColor: COLORS.primary,
+        });
+        setShowForgotModal(false);
+        setResetEmail("");
+      } else {
+        Swal.fire({
+          title: "Atención",
+          text: data.message,
+          icon: "warning",
+          confirmButtonColor: COLORS.primary,
+        });
+      }
+    } catch (err) {
+      Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
+    } finally {
+      setSendingReset(false);
+    }
+  };
+
+  const handleResetPasswordFinal = async (e) => {
+    e.preventDefault();
+    setResetError("");
+
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,12}$/;
+
+    if (!regex.test(newPassword)) {
+      return setResetError(
+        "La clave debe tener: 1 Mayúscula, 1 Minúscula, 1 Número y entre 6 y 12 caracteres."
+      );
+    }
+    if (newPassword !== confirmPassword) {
+      return setResetError("Las contraseñas no coinciden.");
+    }
+
+    setLoadingReset(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/auth/reset-password/${resetToken}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ newPassword }),
+        }
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire("¡Éxito!", "Tu contraseña ha sido actualizada.", "success");
+        setShowResetModal(false);
+        navigate("/login");
+      } else {
+        setResetError(data.message);
+      }
+    } catch (err) {
+      setResetError("Error al conectar con el servidor.");
+    } finally {
+      setLoadingReset(false);
     }
   };
 
@@ -242,6 +419,29 @@ export const useAuthForm = () => {
     showPassword,
     isRegistering,
     loading,
-    error
+    error,
+
+    showRegisterConfirmPassword,
+    toggleRegisterConfirmVisibility,
+
+    showForgotModal,
+    setShowForgotModal,
+    handleForgotSubmit,
+    resetEmail,
+    setResetEmail,
+    sendingReset,
+    showResetModal,
+    setShowResetModal,
+    handleResetPasswordFinal,
+    newPassword,
+    setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
+    showNewPass,
+    setShowNewPass,
+    showConfirmPass,
+    setShowConfirmPass,
+    loadingReset,
+    resetError,
   };
 };
