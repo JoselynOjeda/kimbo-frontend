@@ -16,33 +16,31 @@ export const styles = {
     maxWidth: "100%",       
     margin: "0",            
     padding: "0 1.5rem", 
-    
     boxSizing: "border-box", 
   },
 
   flexContainer: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-between", // Mantiene logo a la izq y user a la der
     height: "3.5rem", 
   },
 
+  // 1. LOGO (Izquierda)
   logoContainer: {
     display: "flex",
     alignItems: "center",
     gap: "0.5rem", 
     cursor: "pointer",
     textDecoration: "none",
-    flex: 1, 
-    marginRight: "0.5rem", 
-    overflow: "hidden", 
+    flexShrink: 0, // No permitir que se encoja
+    marginRight: "1rem", 
   },
 
   logoImage: {
     height: "2.5rem", 
     width: "auto",
     objectFit: "contain",
-    flexShrink: 0, 
   },
 
   logoText: {
@@ -74,11 +72,15 @@ export const styles = {
     whiteSpace: "nowrap",
   },
 
+  // 2. MENÚ CENTRAL (Centrado Absoluto o Flex)
   navItemsWrapper: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center", // Centra los items
     gap: "0.25rem",
+    flex: 1, // Toma todo el espacio disponible para centrarse
   },
+
   navItemBase: {
     display: "flex",
     alignItems: "center",
@@ -102,6 +104,16 @@ export const styles = {
     backgroundColor: "transparent",
     color: "#4b5563",
   },
+
+  // 3. SECCIÓN DERECHA (Login / Perfil / Hamburguesa)
+  rightSection: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexShrink: 0, // No permitir que se encoja
+    minWidth: "150px", // Reserva espacio para equilibrar visualmente si es necesario
+  },
+
   ctaButton: {
     padding: "0.5rem 1.2rem",
     backgroundColor: "#1f2937",
@@ -113,10 +125,60 @@ export const styles = {
     cursor: "pointer",
     transition: "all 0.3s ease",
     whiteSpace: "nowrap",
-    marginLeft: "1rem",
   },
 
+  // --- ESTILOS DE PERFIL DE USUARIO ---
+  userProfileContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    backgroundColor: "white",
+    padding: "4px 8px 4px 4px",
+    borderRadius: "9999px",
+    border: "1px solid #e5e7eb",
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+  },
+  avatarImage: {
+    width: "32px",
+    height: "32px",
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
+  avatarPlaceholder: {
+    width: "32px",
+    height: "32px",
+    borderRadius: "50%",
+    backgroundColor: "#e5e7eb",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#6b7280",
+  },
+  userInfo: {
+    display: "flex",
+    flexDirection: "column",
+    marginRight: "4px",
+  },
+  userName: {
+    fontSize: "0.85rem",
+    fontWeight: "600",
+    color: "#374151",
+    lineHeight: "1",
+  },
+  logoutButton: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "transparent",
+    border: "none",
+    cursor: "pointer",
+    padding: "6px",
+    borderRadius: "50%",
+    color: "#ef4444",
+    transition: "background-color 0.2s",
+  },
 
+  // --- MOBILE ---
   hamburgerButton: {
     background: "transparent",
     border: "none",
@@ -126,11 +188,6 @@ export const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: "0.5rem",
-
-    marginRight: "-0.5rem", 
-    
-    marginLeft: "auto", 
-    flexShrink: 0, 
   },
 
   mobileMenuContainer: {
@@ -146,6 +203,31 @@ export const styles = {
     padding: "1rem",
     gap: "0.5rem",
     boxSizing: "border-box",
+  },
+
+  mobileUserHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    paddingBottom: '1rem',
+    marginBottom: '0.5rem',
+    borderBottom: '1px solid #f3f4f6',
+  },
+  avatarImageLarge: {
+    width: "40px", 
+    height: "40px", 
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
+  avatarPlaceholderLarge: {
+    width: "40px", 
+    height: "40px", 
+    borderRadius: "50%", 
+    backgroundColor: "#e5e7eb",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#6b7280",
   },
 
   mobileNavItem: {
@@ -176,5 +258,5 @@ export const styles = {
     color: "white",
     justifyContent: "center",
     textAlign: "center",
-  }
+  },
 };
