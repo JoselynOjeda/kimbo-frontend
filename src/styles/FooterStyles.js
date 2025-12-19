@@ -4,20 +4,15 @@ export const footerStyles = {
   footer: {
     position: "relative",
     marginTop: "auto",
-
     borderTop: "1px solid rgba(255, 255, 255, 0.4)",
-    
-
     backgroundColor: "rgba(255, 255, 255, 0.85)",
-    backdropFilter: "blur(12px)", 
+    backdropFilter: "blur(12px)",
     boxShadow: "0 -4px 30px rgba(0, 0, 0, 0.1)",
-    
     width: "100%",
     zIndex: 10,
     fontFamily: "'Poppins', sans-serif",
     overflow: "hidden",
   },
-  
 
   gradientOverlay: {
     position: "absolute",
@@ -30,22 +25,27 @@ export const footerStyles = {
     position: "relative",
     maxWidth: "1280px",
     margin: "0 auto",
-    padding: "3rem 1.5rem 1.5rem 1.5rem", 
+
+    padding: "3rem 1.5rem", 
+    width: "100%",
+    boxSizing: "border-box", 
   },
 
   contentWrapper: {
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center", 
-    gap: "3rem",
+    flexWrap: "wrap", 
+    justifyContent: "space-between", 
+    gap: "2.5rem",
     marginBottom: "2rem",
     textAlign: "left",
   },
 
 
   brandSection: {
-    flex: "0 1 350px",
-    maxWidth: "380px",
+
+    flex: "1 1 280px", 
+    maxWidth: "400px",
+    marginBottom: "1rem",
   },
 
   brandHeader: {
@@ -59,11 +59,10 @@ export const footerStyles = {
     height: "3.5rem",
     width: "auto",
     objectFit: "contain",
-
   },
 
   brandName: {
-    color: "#111827", 
+    color: "#111827",
     fontWeight: "800",
     fontSize: "1.1rem",
     lineHeight: "1.2",
@@ -81,35 +80,37 @@ export const footerStyles = {
   socialContainer: {
     display: "flex",
     gap: "0.75rem",
+    justifyContent: "flex-start", 
+    flexWrap: "wrap",
   },
-
 
   socialIcon: {
     width: "2.5rem",
     height: "2.5rem",
     borderRadius: "50%",
-    backgroundColor: "white", 
+    backgroundColor: "white",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "#374151", 
-    border: "1px solid #E5E7EB", 
+    color: "#374151",
+    border: "1px solid #E5E7EB",
     textDecoration: "none",
     transition: "all 0.3s ease",
     cursor: "pointer",
     boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
   },
-  
+
   socialIconHover: {
     transform: "scale(1.1)",
-    backgroundColor: "#2E7D32", 
-    color: "white", 
+    backgroundColor: "#2E7D32",
+    color: "white",
     borderColor: "#2E7D32",
     boxShadow: "0 4px 12px rgba(46, 125, 50, 0.3)",
   },
 
+
   linksColumn: {
-    flex: "0 1 160px",
+    flex: "1 1 140px", 
     minWidth: "140px",
   },
 
@@ -141,10 +142,11 @@ export const footerStyles = {
     gap: "0.5rem",
     cursor: "pointer",
     fontWeight: "500",
+    whiteSpace: "nowrap", 
   },
-  
+
   linkItemHover: {
-    color: "#2E7D32", 
+    color: "#2E7D32",
     paddingLeft: "4px",
     fontWeight: "600",
   },
@@ -157,12 +159,12 @@ export const footerStyles = {
 
   bottomBar: {
     paddingTop: "1.5rem",
-    borderTop: "1px solid rgba(0, 0, 0, 0.05)", 
+    borderTop: "1px solid rgba(0, 0, 0, 0.05)",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "center",
+    justifyContent: "space-between", 
     alignItems: "center",
-    gap: "2rem",
+    gap: "1.5rem",
     textAlign: "center",
   },
 
@@ -170,22 +172,23 @@ export const footerStyles = {
     color: "#6B7280",
     fontSize: "0.85rem",
     fontWeight: "500",
+    textAlign: "left",
   },
 
   legalLinks: {
     display: "flex",
     gap: "1.5rem",
     justifyContent: "center",
+    flexWrap: "wrap",
   },
-  
 
   glowLine: {
     position: "absolute",
     bottom: 0,
     left: "0",
     width: "100%",
-    height: "4px", 
-    background: "linear-gradient(90deg, #2E7D32, #81C784, #EF6C00, #2E7D32)", 
+    height: "4px",
+    background: "linear-gradient(90deg, #2E7D32, #81C784, #EF6C00, #2E7D32)",
     opacity: 0.8
   }
 };

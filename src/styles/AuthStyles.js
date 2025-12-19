@@ -59,7 +59,7 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+    fontSize: "clamp(5rem, 4vw, 2.5rem)",
     fontWeight: "bold",
     lineHeight: 1.2,
     marginBottom: "1rem",
@@ -72,7 +72,7 @@ export const styles = {
 
   descriptionP: {
     opacity: 0.9,
-    fontSize: "1rem",
+    fontSize: "10rem",
     marginBottom: "1.5rem",
     textAlign: "center",
     position: "relative",
@@ -125,7 +125,7 @@ export const styles = {
   },
 
   label: {
-    fontSize: "0.7rem",
+    fontSize: "0.9rem",
     color: COLORS.gray600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
@@ -206,7 +206,7 @@ export const styles = {
   separatorText: {
     padding: "0 0.5rem",
     color: COLORS.gray600,
-    fontSize: "0.7rem",
+    fontSize: "1 rem",
     textAlign: "center",
   },
 

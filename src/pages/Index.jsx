@@ -1,63 +1,155 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import imagenFondo from "../assets/images/FondoIndex-Kimbo.png";
 
 function Index() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    // 1. Al cargar la página, buscamos si hay datos guardados
     const userData = localStorage.getItem("user");
-    
     if (userData) {
-      // Si hay datos, los convertimos de texto a objeto real
       setUsuario(JSON.parse(userData));
     }
   }, []);
 
   const handleLogout = () => {
-    // Borramos datos para cerrar sesión
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setUsuario(null); // Limpiamos el estado visualmente
-    // Opcional: Recargar la página o navegar al login
-    // navigate("/login"); 
+    setUsuario(null);
+  };
+
+  const pageStyles = {
+    pageContainer: {
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      backgroundColor: "#F9FAFB",
+      fontFamily: "'Poppins', sans-serif",
+    },
+
+    heroWrapper: {
+      width: "100%",
+      marginTop: "0",
+      paddingTop: "6rem",
+
+      position: "relative",
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "#f3f4f6",
+    },
+    heroImage: {
+      width: "100%",
+      height: "auto",
+      display: "block",
+      objectFit: "contain",
+    },
+
+    userWelcomeCard: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      backgroundColor: "rgba(255, 255, 255, 0.95)",
+      padding: "2rem",
+      borderRadius: "1rem",
+      boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
+      textAlign: "center",
+      maxWidth: "600px",
+      width: "90%",
+    },
+
+    mainContent: {
+      flex: 1,
+      padding: "4rem 1.5rem",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      maxWidth: "1200px",
+      margin: "0 auto",
+      width: "100%",
+    },
+
+    // Estilos generales
+    title: {
+      color: "#2E7D32",
+      fontSize: "1.8rem",
+      fontWeight: "800",
+      marginBottom: "0.5rem",
+    },
+    text: {
+      color: "#374151",
+      marginBottom: "1.5rem",
+    },
+    primaryButton: {
+      padding: "0.8rem 2rem",
+      backgroundColor: "#2E7D32",
+      color: "white",
+      border: "none",
+      borderRadius: "8px",
+      fontSize: "1rem",
+      fontWeight: "600",
+      cursor: "pointer",
+    },
+    secondaryButton: {
+      padding: "0.8rem 2rem",
+      backgroundColor: "transparent",
+      color: "#2E7D32",
+      border: "2px solid #2E7D32",
+      borderRadius: "8px",
+      fontSize: "1rem",
+      fontWeight: "600",
+      cursor: "pointer",
+      marginLeft: "1rem",
+    },
+
+    productsPlaceholderSection: {
+      textAlign: "center",
+      marginTop: "1rem",
+    },
+    sectionTitle: {
+      fontSize: "2rem",
+      color: "#111827",
+      marginBottom: "1rem",
+      fontWeight: "bold",
+    },
   };
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      
-      {/* --- ZONA CONDICIONAL --- */}
-      {usuario ? (
-        // A) SI EL USUARIO ESTÁ LOGUEADO, SE MUESTRA ESTO:
-        <div style={{ backgroundColor: "#d1fae5", padding: "20px", borderRadius: "10px" }}>
-          <h1 style={{ color: "#065f46" }}>¡Bienvenido de vuelta, {usuario.nombre}! 🐶</h1>
-          <p>Nos alegra verte por aquí, {usuario.email}.</p>
-          <button onClick={handleLogout} style={{ padding: "10px 20px", cursor: "pointer" }}>
-            Cerrar Sesión
-          </button>
-        </div>
-      ) : (
-        // B) SI NO HA INICIADO SESIÓN, SE MUESTRA ESTO:
-        <div>
-          <h1>Bienvenido a Kimbo (Modo Visitante)</h1>
-          <p>Explora nuestros productos naturales para tu mascota.</p>
-          <p>Para ver tu perfil y ofertas exclusivas, inicia sesión.</p>
-          
-          <button 
-            onClick={() => navigate("/login")}
-            style={{ padding: "10px 20px", backgroundColor: "#2E7D32", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
-          >
-            Iniciar Sesión / Registrarse
-          </button>
-        </div>
-      )}
+    <div style={pageStyles.pageContainer}>
+      <Navbar />
 
-      <hr style={{ margin: "2rem 0" }} />
-      
-      <h2>Productos Destacados</h2>
-      <p>Aquí va el resto de tu página que todo el mundo puede ver...</p>
-      
+      <div style={pageStyles.heroWrapper}>
+        <img
+          src={imagenFondo}
+          alt="Banner Principal Kimbo"
+          style={pageStyles.heroImage}
+        />
+
+        {usuario && (
+          <div style={pageStyles.userWelcomeCard}>
+            <h1 style={pageStyles.title}>¡Hola, {usuario.nombre}! 🐾</h1>
+            <p style={pageStyles.text}>
+              Tu cuenta está activa. ¿Listo para consentir a tu mascota?
+            </p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => navigate("/productos")}
+                style={pageStyles.primaryButton}
+              >
+                Ver Catálogo
+              </button>
+              <button onClick={handleLogout} style={pageStyles.secondaryButton}>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
+import AuthPage from "./pages/AuthPage"; 
 import Index from "./pages/Index";
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/login" element={<AuthPage />} />
+      <Route path="/reset-password/:token" element={<AuthPage />} />
     </Routes>
   );
 }
