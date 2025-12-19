@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+// Importamos useParams para leer el token de la URL
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import imagenFondo from "../assets/images/Login-Fondo-Kimbo.png";
 import imagenLogo from "../assets/images/Logo-Kimbo.png";
 import { styles, COLORS } from "../styles/AuthStyles";
@@ -13,6 +14,7 @@ import Footer from "../components/Footer";
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { token } = useParams(); // Hook para leer parámetros de la URL como :token
 
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
@@ -28,6 +30,9 @@ export default function LoginPage() {
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
 
+  // Ref para evitar que el efecto de verificación corra dos veces en modo desarrollo
+  const verificationAttempted = useRef(false);
+
   const {
     formData,
     handleChange,
@@ -41,13 +46,74 @@ export default function LoginPage() {
     error,
   } = useAuthForm();
 
+  // -----------------------------------------------------------------------
+  // 1. LÓGICA DE VERIFICACIÓN DE CUENTA (Automática al cargar)
+  // -----------------------------------------------------------------------
+  useEffect(() => {
+    // Si existe el token y estamos en la ruta de confirmación
+    if (token && location.pathname.includes("/confirm-account/")) {
+      
+      if (verificationAttempted.current) return;
+      verificationAttempted.current = true;
+
+      const verifyAccount = async () => {
+        // Mostramos alerta de carga
+        Swal.fire({
+          title: 'Verificando cuenta...',
+          text: 'Por favor espera un momento.',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        try {
+          const response = await fetch(`http://localhost:3001/api/auth/confirm-account/${token}`);
+          const data = await response.json();
+
+          if (response.ok) {
+            await Swal.fire({
+              title: "¡Cuenta Verificada! 🎉",
+              text: "Tu correo ha sido validado correctamente. Ya puedes iniciar sesión.",
+              icon: "success",
+              confirmButtonColor: COLORS.primary,
+              confirmButtonText: "Iniciar Sesión"
+            });
+            // Redirigimos a /login (limpiando el token de la URL)
+            navigate("/login", { replace: true });
+          } else {
+            await Swal.fire({
+              title: "Error de Verificación",
+              text: data.message || "El enlace no es válido o ya fue utilizado.",
+              icon: "error",
+              confirmButtonColor: COLORS.primary,
+              confirmButtonText: "Entendido"
+            });
+            navigate("/login", { replace: true });
+          }
+        } catch (error) {
+          console.error(error);
+          Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
+          navigate("/login", { replace: true });
+        }
+      };
+
+      verifyAccount();
+    }
+  }, [token, location, navigate]);
+
+  // -----------------------------------------------------------------------
+  // 2. LÓGICA DE RESET PASSWORD (Mantenemos tu lógica existente)
+  // -----------------------------------------------------------------------
   useEffect(() => {
     if (location.pathname.includes("/reset-password/")) {
-      const token = location.pathname.split("/").pop();
-      setResetToken(token);
+      const pathToken = location.pathname.split("/").pop();
+      setResetToken(pathToken);
       setShowResetModal(true);
     }
   }, [location]);
+
+  // --- Handlers existentes ---
 
   const handleForgotSubmit = async (e) => {
     e.preventDefault();
@@ -140,80 +206,28 @@ export default function LoginPage() {
   };
 
   const UserIcon = () => (
-    <svg
-      className="input-icon"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-      />
+    <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
     </svg>
   );
   const MailIcon = () => (
-    <svg
-      className="input-icon"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-      />
+    <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
     </svg>
   );
   const LockIcon = () => (
-    <svg
-      className="input-icon"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
-      />
+    <svg className="input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
     </svg>
   );
-
   const EyeIcon = () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
       <circle cx="12" cy="12" r="3"></circle>
     </svg>
   );
   const EyeOffIcon = () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
       <line x1="1" y1="1" x2="23" y2="23"></line>
     </svg>
@@ -708,7 +722,6 @@ export default function LoginPage() {
                 Ingresa tu nueva clave de acceso.
               </p>
 
-              {/* ERROR ESTILO REGISTRO */}
               {resetError && (
                 <div
                   style={{

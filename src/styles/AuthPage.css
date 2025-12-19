@@ -182,6 +182,8 @@ body, .swal2-popup {
   max-width: 400px;
   position: relative;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  box-sizing: border-box; 
+  overflow: hidden; 
 }
 
 .close-modal {

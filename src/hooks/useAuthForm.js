@@ -8,7 +8,6 @@ import { COLORS } from "../styles/AuthStyles";
 export const useAuthForm = () => {
   const navigate = useNavigate();
 
-
   const [showPassword, setShowPassword] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,7 +18,6 @@ export const useAuthForm = () => {
     password: "",
     confirmPassword: ""
   });
-
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -36,6 +34,7 @@ export const useAuthForm = () => {
     });
   };
 
+  // Función auxiliar para alertas
   const mostrarAlerta = (icono, titulo, mensaje) => {
     Swal.fire({
       icon: icono,
@@ -50,7 +49,9 @@ export const useAuthForm = () => {
     });
   };
 
-
+  // -----------------------------------------------------------------------
+  // 1. INICIO DE SESIÓN SOCIAL (Google / Facebook)
+  // -----------------------------------------------------------------------
   const handleSocialLogin = async (providerType) => {
     setError("");
     try {
@@ -70,6 +71,7 @@ export const useAuthForm = () => {
         provider_id: user.uid
       };
 
+      // Enviamos datos al backend
       const response = await fetch("http://localhost:3001/api/auth/social", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -78,8 +80,22 @@ export const useAuthForm = () => {
 
       const data = await response.json();
 
+      // >>> VALIDACIÓN: SI LA CUENTA NO ESTÁ VERIFICADA <<<
+      // El backend ahora devuelve 403 y error 'UNVERIFIED'
+      if (response.status === 403 && data.error === 'UNVERIFIED') {
+        return Swal.fire({
+            icon: 'warning',
+            title: '¡Verificación Requerida!',
+            text: data.message, // "Para acceder, valida el correo..."
+            confirmButtonColor: COLORS.primary,
+            confirmButtonText: 'Revisaré mi correo'
+        });
+        // IMPORTANTE: Aquí se detiene la función, NO se guarda token ni se navega.
+      }
+
       if (!response.ok) throw new Error(data.message || "Error al conectar con el servidor");
 
+      // Si todo está bien (200 OK)
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
@@ -105,13 +121,15 @@ export const useAuthForm = () => {
     }
   };
 
-
+  // -----------------------------------------------------------------------
+  // 2. INICIO DE SESIÓN LOCAL Y REGISTRO
+  // -----------------------------------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // Validaciones
+    // --- Validaciones Frontend ---
     if (!formData.email.trim() || !formData.password.trim()) {
       setLoading(false);
       mostrarAlerta('warning', 'Campos Incompletos', 'Por favor, llena todos los campos obligatorios.');
@@ -163,22 +181,35 @@ export const useAuthForm = () => {
 
       const data = await response.json();
 
+      // >>> VALIDACIÓN: SI LA CUENTA NO ESTÁ VERIFICADA (LOGIN) <<<
+      if (response.status === 403 && data.error === 'UNVERIFIED') {
+        setLoading(false);
+        return Swal.fire({
+            icon: 'warning',
+            title: '¡Cuenta no verificada!',
+            text: data.message, // "Tu cuenta no está verificada..."
+            confirmButtonColor: COLORS.primary,
+            confirmButtonText: 'Revisaré mi correo'
+        });
+        // IMPORTANTE: Detenemos ejecución.
+      }
+
       if (!response.ok) throw new Error(data.message || "Error de conexión");
 
       setLoading(false);
 
       if (isRegistering) {
+        // Registro Exitoso
         Swal.fire({
           icon: 'success',
           title: '¡Cuenta Creada!',
-          text: `Bienvenido/a ${data.user.nombre}. Ahora inicia sesión.`,
+          text: `Hemos enviado un correo a ${formData.email}. Por favor verifica tu cuenta antes de iniciar sesión.`,
           confirmButtonColor: COLORS.primary,
-          timer: 3000,
-          timerProgressBar: true
         }).then(() => {
-          toggleForm();
+          toggleForm(); // Cambiamos al formulario de login para obligar a loguearse tras verificar
         });
       } else {
+        // Login Exitoso (Solo llega aquí si es status 200 y pasó las validaciones)
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
 
@@ -200,6 +231,7 @@ export const useAuthForm = () => {
       mostrarAlerta('error', 'Ocurrió un error', error.message);
     }
   };
+
   return {
     formData,
     handleChange,

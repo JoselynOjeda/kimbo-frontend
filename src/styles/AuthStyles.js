@@ -1,3 +1,4 @@
+// src/styles/AuthStyles.js
 
 export const COLORS = {
   primary: "#2E7D32",
@@ -12,34 +13,30 @@ export const COLORS = {
 
 const LOGO_SIZE = "80px";
 
-
 export const styles = {
- 
   mainContainer: {
     minHeight: "100vh",
     width: "100%",
-    position: "relative", 
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: "6rem 0 0 0", 
+    padding: "6rem 0 0 0",
     fontFamily: "Poppins, sans-serif",
     backgroundColor: "#f3f4f6",
     overflowX: "hidden",
   },
-
 
   backgroundBanner: (imagenFondo) => ({
     position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
-    height: "85vh", 
+    height: "85vh",
     backgroundImage: `url(${imagenFondo})`,
     backgroundSize: "cover",
     backgroundPosition: "center bottom",
-    zIndex: 0, 
-   
+    zIndex: 0,
     maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
     WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
   }),
@@ -59,20 +56,19 @@ export const styles = {
   },
 
   titleH1: {
-    fontSize: "clamp(5rem, 4vw, 2.5rem)",
+    fontSize: "clamp(2rem, 4vw, 2.5rem)",
     fontWeight: "bold",
     lineHeight: 1.2,
     marginBottom: "1rem",
     textAlign: "center",
-    color:  COLORS.white,
+    color: COLORS.white,
     position: "relative",
     zIndex: 2,
-
   },
 
   descriptionP: {
     opacity: 0.9,
-    fontSize: "10rem",
+    fontSize: "1.1rem",
     marginBottom: "1.5rem",
     textAlign: "center",
     position: "relative",
@@ -97,20 +93,22 @@ export const styles = {
     zIndex: 2,
   },
 
+  // --- SOLO CAMBIAMOS ESTO ---
   welcomeH2: {
-    fontSize: "clamp(1.5rem, 3vw, 2rem)",
+    fontSize: "3.5rem", // Tamaño aumentado para el Título
     fontWeight: "bold",
     color: COLORS.primary,
-    marginBottom: "0.25rem",
+    marginBottom: "0.5rem",
     textAlign: "center",
   },
 
   welcomeP: {
     color: COLORS.gray700,
     marginBottom: "1.5rem",
-    fontSize: "0.9rem",
+    fontSize: "1.4rem", // Tamaño aumentado para el Párrafo
     textAlign: "center",
   },
+  // ---------------------------
 
   formItemsContainer: {
     display: "flex",
@@ -206,7 +204,7 @@ export const styles = {
   separatorText: {
     padding: "0 0.5rem",
     color: COLORS.gray600,
-    fontSize: "1 rem",
+    fontSize: "1rem",
     textAlign: "center",
   },
 
