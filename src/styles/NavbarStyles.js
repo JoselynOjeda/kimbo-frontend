@@ -22,18 +22,17 @@ export const styles = {
   flexContainer: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between", // Mantiene logo a la izq y user a la der
+    justifyContent: "space-between", 
     height: "3.5rem", 
   },
 
-  // 1. LOGO (Izquierda)
   logoContainer: {
     display: "flex",
     alignItems: "center",
     gap: "0.5rem", 
     cursor: "pointer",
     textDecoration: "none",
-    flexShrink: 0, // No permitir que se encoja
+    flexShrink: 0, 
     marginRight: "1rem", 
   },
 
@@ -72,13 +71,12 @@ export const styles = {
     whiteSpace: "nowrap",
   },
 
-  // 2. MENÚ CENTRAL (Centrado Absoluto o Flex)
   navItemsWrapper: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center", // Centra los items
+    justifyContent: "center", 
     gap: "0.25rem",
-    flex: 1, // Toma todo el espacio disponible para centrarse
+    flex: 1, 
   },
 
   navItemBase: {
@@ -105,13 +103,12 @@ export const styles = {
     color: "#4b5563",
   },
 
-  // 3. SECCIÓN DERECHA (Login / Perfil / Hamburguesa)
   rightSection: {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    flexShrink: 0, // No permitir que se encoja
-    minWidth: "150px", // Reserva espacio para equilibrar visualmente si es necesario
+    flexShrink: 0, 
+    minWidth: "150px", 
   },
 
   ctaButton: {
@@ -127,16 +124,18 @@ export const styles = {
     whiteSpace: "nowrap",
   },
 
-  // --- ESTILOS DE PERFIL DE USUARIO ---
   userProfileContainer: {
     display: "flex",
     alignItems: "center",
     gap: "8px",
     backgroundColor: "white",
-    padding: "4px 8px 4px 4px",
+    padding: "4px 12px 4px 4px", 
     borderRadius: "9999px",
     border: "1px solid #e5e7eb",
     boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+    cursor: "pointer", 
+    transition: "all 0.2s ease", 
+    userSelect: "none",
   },
   avatarImage: {
     width: "32px",
@@ -154,31 +153,51 @@ export const styles = {
     justifyContent: "center",
     color: "#6b7280",
   },
-  userInfo: {
-    display: "flex",
-    flexDirection: "column",
-    marginRight: "4px",
-  },
-  userName: {
+  name: {
     fontSize: "0.85rem",
     fontWeight: "600",
     color: "#374151",
     lineHeight: "1",
   },
-  logoutButton: {
+  
+  dropdownMenu: {
+    position: "absolute",
+    top: "calc(100% + 8px)", 
+    right: 0,
+    width: "220px",
+    backgroundColor: "white",
+    borderRadius: "12px",
+    boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+    border: "1px solid #f3f4f6",
+    padding: "0.5rem",
+    display: "flex",
+    flexDirection: "column",
+    gap: "2px",
+    zIndex: 100,
+
+  },
+  dropdownItem: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    background: "transparent",
+    gap: "12px",
+    padding: "10px 12px",
+    fontSize: "0.9rem",
+    color: "#4b5563",
+    backgroundColor: "transparent",
     border: "none",
+    borderRadius: "8px",
     cursor: "pointer",
-    padding: "6px",
-    borderRadius: "50%",
-    color: "#ef4444",
-    transition: "background-color 0.2s",
+    textAlign: "left",
+    transition: "background-color 0.2s ease, color 0.2s ease", 
+    width: "100%",
+    fontWeight: "500",
+  },
+  dropdownDivider: {
+    height: "1px",
+    backgroundColor: "#f3f4f6",
+    margin: "6px 0",
   },
 
-  // --- MOBILE ---
   hamburgerButton: {
     background: "transparent",
     border: "none",

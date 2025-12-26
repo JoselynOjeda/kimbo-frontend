@@ -91,7 +91,6 @@ export default function Footer() {
               mascota y conecta contigo.
             </p>
 
-            {/* Redes Sociales */}
             <div style={footerStyles.socialContainer}>
               {socialLinks.map((social) => {
                 const isHovered = hoveredSocial === social.name;
@@ -163,7 +162,7 @@ export default function Footer() {
               width: "auto",
             }}
           >
-            © 2025 Kimbo Natural. Todos los derechos reservados.
+            © 2025 Kimbo Natural Dog Food & Nutrition. Todos los derechos reservados.
           </p>
           <div style={footerStyles.legalLinks}>
             <a

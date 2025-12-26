@@ -41,7 +41,7 @@ export const useAuthForm = () => {
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleRegisterConfirmVisibility = () =>
-    setShowRegisterConfirmPassword(!showRegisterConfirmPassword); 
+    setShowRegisterConfirmPassword(!showRegisterConfirmPassword);
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
@@ -175,19 +175,18 @@ export const useAuthForm = () => {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-
       Swal.fire({
         icon: "success",
-        title: `¡Bienvenido con ${
-          providerType === "google" ? "Google" : "Facebook"
-        }!`,
-        text: `Hola, ${data.user.nombre}`,
+        title: "¡Inicio de sesión exitoso!", 
+        text: `Bienvenido de nuevo, ${data.user.nombre}`,
         showConfirmButton: false,
         timer: 1500,
         backdrop: `rgba(0,0,123,0.4)`,
       }).then(() => {
         navigate("/");
       });
+      // ----------------------------------------------
+
     } catch (error) {
       console.error("Error Social:", error);
       let mensaje = error.message;
@@ -204,7 +203,6 @@ export const useAuthForm = () => {
     setError("");
     setLoading(true);
 
-    // Validaciones básicas
     if (!formData.email.trim() || !formData.password.trim()) {
       setLoading(false);
       mostrarAlerta(
@@ -228,7 +226,6 @@ export const useAuthForm = () => {
     if (isRegistering) {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
 
-      // Validación longitud: Mínimo 6, Máximo 12
       if (formData.password.length < 6 || formData.password.length > 12) {
         setLoading(false);
         setError("Longitud inválida");
